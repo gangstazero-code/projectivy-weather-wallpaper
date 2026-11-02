@@ -105,7 +105,7 @@ object PreferencesManager {
      */
     /** One of Backgrounds.SOURCE_* — gradient, local, stock or radar. */
     var backgroundSource: String
-        get() = prefs.getString(KEY_BACKGROUND, null) ?: Backgrounds.SOURCE_SCENE
+        get() = prefs.getString(KEY_BACKGROUND, null) ?: Backgrounds.SOURCE_GRADIENT
         set(v) = prefs.edit().putString(KEY_BACKGROUND, v).apply()
 
     /** Unsplash Access Key. Empty means the stock source is unavailable. */
@@ -124,7 +124,7 @@ object PreferencesManager {
     // Optional panels. Hourly defaults on; the rest stay off so the panel starts
     // sparse and the user opts into density.
     var showHourly: Boolean
-        get() = prefs.getBoolean(KEY_SHOW_HOURLY, true)
+        get() = prefs.getBoolean(KEY_SHOW_HOURLY, false)
         set(v) = prefs.edit().putBoolean(KEY_SHOW_HOURLY, v).apply()
 
     var showDaily: Boolean
@@ -284,7 +284,7 @@ object PreferencesManager {
      * panel can show.
      */
     var showNowcast: Boolean
-        get() = prefs.getBoolean(KEY_NOWCAST, true)
+        get() = prefs.getBoolean(KEY_NOWCAST, false)
         set(v) = prefs.edit().putBoolean(KEY_NOWCAST, v).apply()
 
     /**
@@ -451,7 +451,7 @@ object PreferencesManager {
      * something applies, so it costs nothing on an ordinary day.
      */
     var showAdvisories: Boolean
-        get() = prefs.getBoolean(KEY_ADVISORIES, true)
+        get() = prefs.getBoolean(KEY_ADVISORIES, false)
         set(v) = prefs.edit().putBoolean(KEY_ADVISORIES, v).apply()
 
     /**
@@ -489,7 +489,7 @@ object PreferencesManager {
      * to redraw — to be visible rather than silently misleading.
      */
     var showLastUpdated: Boolean
-        get() = prefs.getBoolean(KEY_LAST_UPDATED, true)
+        get() = prefs.getBoolean(KEY_LAST_UPDATED, false)
         set(v) = prefs.edit().putBoolean(KEY_LAST_UPDATED, v).apply()
 
     /** "4° cooler than yesterday". */

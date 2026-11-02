@@ -49,7 +49,7 @@ object CalendarPanel {
         val left = right - w
         val h = naturalH * k
 
-        val bg = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.argb(95, 0, 0, 0) }
+        val bg = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.argb(150, 0, 0, 0) }
         canvas.drawRoundRect(RectF(left, top, right, top + h), 28f * k, 28f * k, bg)
 
         fun text(size: Float, face: Typeface, color: Int = Color.WHITE, alpha: Int = 255) =
