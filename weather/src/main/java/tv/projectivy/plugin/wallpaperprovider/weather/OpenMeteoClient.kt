@@ -18,7 +18,7 @@ object OpenMeteoClient {
 
     private const val TAG = "OpenMeteoClient"
     private const val ENDPOINT = "https://api.open-meteo.com/v1/forecast"
-    private const val TIMEOUT_MS = 8_000
+    private const val TIMEOUT_MS = 3_000
 
     data class HourEntry(
         val label: String,
@@ -85,6 +85,9 @@ object OpenMeteoClient {
     )
 
     fun fetch(lat: Double, lon: Double, metric: Boolean): Conditions? {
+        // MET Norway first: Open-Meteo is unreachable or overloaded from this
+        // network, and waiting on its timeout made the launcher give up.
+        MetNoClient.fetch(lat, lon, metric)?.let { return it }
         val tempUnit = if (metric) "celsius" else "fahrenheit"
         val windUnit = if (metric) "kmh" else "mph"
         val url = "$ENDPOINT?latitude=$lat&longitude=$lon" +
