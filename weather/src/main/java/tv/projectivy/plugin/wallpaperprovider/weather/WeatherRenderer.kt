@@ -605,6 +605,7 @@ object WeatherRenderer {
         val showHourly = PreferencesManager.showHourly && c.hourly.isNotEmpty()
         val showDaily = PreferencesManager.showDaily && c.daily.isNotEmpty()
 
+        var calendarBottom = safeBottom() - 24f
         if (showHourly || showDaily) {
             // Clamp upward to stay clear of the app row rather than dropping the
             // strips entirely. The earlier version discarded them silently once
@@ -616,6 +617,7 @@ object WeatherRenderer {
 
             // Only bail if there is genuinely no room left below the text.
             if (stripTop >= y - 6f) {
+                calendarBottom = minOf(calendarBottom, stripTop - 24f)
                 var x = MARGIN
                 if (showHourly) {
                     x = hourlyStrip(canvas, c, x, stripTop)
@@ -626,6 +628,13 @@ object WeatherRenderer {
                 }
             }
         }
+
+        // Month calendar with Orthodox feasts, right column under the clock.
+        val clockOnRight = PreferencesManager.showClock &&
+            PreferencesManager.clockPosition == PreferencesManager.CLOCK_TOP_RIGHT
+        val calendarTop = (if (clockOnRight) MARGIN + sz(PreferencesManager.clockBaseSize) * 1.15f + 30f
+            else MARGIN + 20f) + (if (alert != null) 92f else 0f)
+        CalendarPanel.draw(canvas, W - MARGIN, calendarTop, calendarBottom, light, medium)
 
         // Update notice, kept to the same small print as the credits. A
         // wallpaper is a poor place to shout, and it self-clears once updated.
