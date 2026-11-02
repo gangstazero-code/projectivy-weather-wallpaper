@@ -107,8 +107,8 @@ object OpenMeteoClient {
                 setRequestProperty("Accept", "application/json")
             }
             if (conn.responseCode !in 200..299) {
-                Log.w(TAG, "HTTP ${conn.responseCode}")
-                return null
+                Log.w(TAG, "HTTP ${conn.responseCode}, falling back to MET Norway")
+                return MetNoClient.fetch(lat, lon, metric)
             }
             val root = JSONObject(conn.inputStream.bufferedReader().use { it.readText() })
             val current = root.getJSONObject("current")
@@ -147,8 +147,8 @@ object OpenMeteoClient {
                 utcOffsetSeconds = utcOffsetSeconds
             )
         } catch (e: Exception) {
-            Log.w(TAG, "Fetch failed: ${e.message}")
-            null
+            Log.w(TAG, "Fetch failed: ${e.message}, falling back to MET Norway")
+            MetNoClient.fetch(lat, lon, metric)
         } finally {
             conn?.disconnect()
         }
